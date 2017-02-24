@@ -12,17 +12,27 @@ namespace Nimbus.Tests.Common
 
         public static string ServiceBusConnectionString
         {
-            get { return _connectionString.Value; }
+            get { return EnvironmentServiceBusConnectionString() ?? _connectionString.Value; }
         }
 
         public static string BlobStorageConnectionString
         {
-            get { return _blobStorageConnectionString.Value; }
+            get { return EnvironmentBlobStorageConnectionString() ?? _blobStorageConnectionString.Value; }
         }
 
         private static string FetchServiceBusConnectionString()
         {
             return LocalFilesystemServiceBusConnectionString();
+        }
+
+        private static string EnvironmentServiceBusConnectionString()
+        {
+            return Environment.GetEnvironmentVariable("NimbusConnectionString");
+        }
+
+        private static string EnvironmentBlobStorageConnectionString()
+        {
+            return Environment.GetEnvironmentVariable("NimbusBlobStorageConnectionString");
         }
 
         private static string LocalFilesystemServiceBusConnectionString()
